@@ -201,7 +201,8 @@ enggoharsh.github.io/
 
 ## License
 
-MIT — free to use as a template. If you do, a star ⭐ on the repo is appreciated.
+ Apache License: Version 2.0, January 2004
+
 
 ---
 
