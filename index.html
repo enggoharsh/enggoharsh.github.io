@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh Mishra — RTL Design Engineer | FPGA Developer | RISC-V Processor Designer</title>
+<meta name="description" content="Harsh Mishra — RTL Design Engineer, FPGA Developer, and RISC-V Processor Designer. Building silicon intelligence from transistors to intelligent systems.">
+<meta property="og:title" content="Harsh Mishra — RTL Design Engineer">
+<meta property="og:description" content="Silicon to Intelligence — Designing processors, digital systems and intelligent radar-based solutions.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #020408;
+  --deep: #050c14;
+  --surface: #0a1628;
+  --card: #0d1f35;
+  --border: rgba(0,180,255,0.12);
+  --border-bright: rgba(0,180,255,0.3);
+  --blue: #0ab4ff;
+  --cyan: #00e5ff;
+  --teal: #00d4aa;
+  --blue-dim: rgba(10,180,255,0.15);
+  --text: #e8f4ff;
+  --text-muted: #6a8fab;
+  --text-dim: #3d5a6e;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+  --display: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(2,4,8,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--cyan);
+  letter-spacing: 0.05em;
+}
+.nav-logo span { color: var(--text-muted); }
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.08em;
+}
+.nav-cta:hover { background: var(--blue-dim); }
+
+/* ─── HERO ─── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  padding: 6rem 2rem 4rem;
+}
+
+canvas#bg-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.instruction-stream {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.instr-col {
+  position: absolute; top: 0;
+  display: flex; flex-direction: column; gap: 2rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(0,180,255,0.12);
+  animation: scrollDown linear infinite;
+  letter-spacing: 0.1em;
+}
+
+@keyframes scrollDown {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  border: 1px solid rgba(0,229,255,0.3);
+  padding: 0.35rem 1rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  background: rgba(0,229,255,0.05);
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--cyan);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.hero-name {
+  font-family: var(--display);
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  background: linear-gradient(135deg, #fff 0%, var(--blue) 50%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+}
+
+.hero-titles {
+  display: flex; justify-content: center; gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title-item {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border-bright);
+  background: var(--blue-dim);
+  letter-spacing: 0.1em;
+}
+
+.hero-tagline {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex; justify-content: center; gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  background: var(--blue);
+  color: var(--black);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-primary:hover { background: var(--cyan); transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-secondary:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--text-dim); letter-spacing: 0.15em;
+  animation: bounce 2s infinite;
+}
+.hero-scroll::after {
+  content: '';
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--blue), transparent);
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ─── SECTION BASE ─── */
+section { padding: 6rem 2rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-line {
+  width: 60px; height: 2px;
+  background: linear-gradient(to right, var(--blue), transparent);
+  margin-bottom: 3rem;
+}
+
+/* ─── ABOUT / TIMELINE ─── */
+#about { background: var(--deep); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  line-height: 1.8;
+}
+
+.about-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 2rem;
+}
+
+.stat-card {
+  padding: 1.2rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--blue), var(--cyan));
+}
+.stat-num {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--blue);
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--blue), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  opacity: 0; transform: translateX(20px);
+  transition: all 0.5s;
+}
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -2rem; top: 0.4rem;
+  width: 8px; height: 8px;
+  background: var(--blue);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--blue);
+  transform: translateX(-3.5px);
+}
+
+.timeline-year {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.2rem;
+}
+.timeline-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ─── SKILLS ─── */
+#skills { background: var(--black); }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-category {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.skill-category:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-4px);
+}
+.skill-category::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--blue), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.skill-category:hover::after { opacity: 1; }
+
+.skill-cat-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+.skill-cat-title {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+.skill-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.skill-tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--surface);
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  cursor: default;
+}
+.skill-tag:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-dim);
+}
+
+/* ─── PROJECTS ─── */
+#projects { background: var(--deep); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.project-card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.project-card:hover { border-color: var(--border-bright); transform: translateY(-4px); }
+.project-card.featured { grid-column: 1 / -1; }
+
+.project-header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.project-number {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.project-title {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.project-subtitle {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  letter-spacing: 0.05em;
+}
+
+.project-body { padding: 1.5rem 2rem; }
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.project-metrics {
+  display: flex; gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+.metric { display: flex; flex-direction: column; gap: 0.2rem; }
+.metric-val {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+.metric-key {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.project-tags {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+.project-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+}
+
+.project-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  transition: gap 0.2s;
+}
+.project-link:hover { gap: 0.8rem; }
+
+/* UART Simulator */
+.uart-sim {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.uart-input-row {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem;
+}
+.uart-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  outline: none;
+}
+.uart-input:focus { border-color: var(--blue); }
+.uart-btn {
+  padding: 0.5rem 1rem;
+  background: var(--blue);
+  color: var(--black);
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.uart-btn:hover { background: var(--cyan); }
+
+.uart-frame {
+  display: flex; gap: 4px; flex-wrap: wrap;
+}
+.uart-bit {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.uart-bit.start { background: rgba(255,80,80,0.2); border-color: #f05050; color: #f05050; }
+.uart-bit.data  { background: rgba(0,180,255,0.15); border-color: var(--blue); color: var(--blue); }
+.uart-bit.parity { background: rgba(0,212,170,0.15); border-color: var(--teal); color: var(--teal); }
+.uart-bit.stop  { background: rgba(0,229,255,0.1); border-color: var(--cyan); color: var(--cyan); }
+
+/* RV32I Datapath */
+.rv-datapath {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+.dp-svg { width: 100%; min-width: 480px; }
+
+/* ─── EXPERIENCE ─── */
+#experience { background: var(--black); }
+
+.terminal {
+  background: #010a12;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  overflow: hidden;
+  font-family: var(--mono);
+}
+.terminal-header {
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-dot.red { background: #f05050; }
+.term-dot.yellow { background: #f0c050; }
+.term-dot.green { background: #50c050; }
+.terminal-title {
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.terminal-body {
+  padding: 1.5rem;
+  min-height: 300px;
+  font-size: 0.82rem;
+  line-height: 2;
+}
+.term-line { display: flex; gap: 0.5rem; }
+.term-prompt { color: var(--cyan); }
+.term-cmd { color: var(--text); }
+.term-output { color: var(--text-muted); padding-left: 1rem; }
+.term-key { color: var(--blue); }
+.term-val { color: var(--teal); }
+.term-cursor {
+  display: inline-block;
+  width: 8px; height: 1em;
+  background: var(--cyan);
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ─── ACHIEVEMENTS ─── */
+#achievements { background: var(--deep); }
+
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.ach-card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.5s;
+}
+.ach-card.visible { opacity: 1; transform: translateY(0); }
+.ach-card:hover { border-color: var(--border-bright); }
+
+.ach-icon {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  background: var(--blue-dim);
+}
+.ach-title {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.ach-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+.ach-badge {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--blue);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-bright);
+  background: var(--blue-dim);
+  letter-spacing: 0.1em;
+}
+
+/* ─── LEADERSHIP ─── */
+#leadership { background: var(--black); }
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.leadership-card {
+  padding: 2rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  text-align: center;
+}
+.leadership-logo {
+  width: 64px; height: 64px;
+  background: var(--blue-dim);
+  border: 1px solid var(--border-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 1rem;
+}
+.leadership-role {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.leadership-org {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.leadership-metrics {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-top: 1.5rem;
+}
+.l-metric {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.l-num {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--blue);
+}
+.l-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  margin-top: 0.2rem;
+}
+
+.workshop-list { list-style: none; }
+.workshop-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.workshop-item:last-child { border-bottom: none; }
+.workshop-num {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  padding-top: 2px;
+  min-width: 30px;
+}
+.workshop-text { font-size: 0.9rem; color: var(--text-muted); }
+
+/* ─── CONTACT ─── */
+#contact { background: var(--deep); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.contact-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+.contact-item:hover { border-color: var(--border-bright); }
+
+.contact-icon {
+  width: 36px; height: 36px;
+  background: var(--blue-dim);
+  border: 1px solid var(--border-bright);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.contact-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.2rem;
+}
+.contact-value { font-size: 0.85rem; color: var(--text); }
+
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-field {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.form-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.form-input, .form-textarea {
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--blue); }
+.form-textarea { min-height: 120px; }
+.form-submit {
+  padding: 0.9rem 2rem;
+  background: var(--blue);
+  color: var(--black);
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+.form-submit:hover { background: var(--cyan); }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--black);
+}
+.footer-text {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+.footer-text span { color: var(--blue); }
+
+/* ─── RADAR PIPELINE ─── */
+.radar-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.radar-step {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  letter-spacing: 0.05em;
+}
+.radar-step.highlight {
+  border-color: var(--border-bright);
+  color: var(--blue);
+  background: var(--blue-dim);
+}
+.radar-arrow {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.accuracy-badge {
+  display: inline-flex; align-items: baseline; gap: 0.3rem;
+  margin: 0.5rem 0;
+}
+.accuracy-num {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.accuracy-unit {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: auto; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .leadership-grid { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+  .hero-name { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .project-metrics { flex-wrap: wrap; }
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── CIRCUIT OVERLAY ─── */
+.circuit-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(10,180,255,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,229,255,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">HM<span>.dev</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#experience">EXPERIENCE</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <a href="mailto:enggoharsh@gmail.com" class="nav-cta">GET IN TOUCH</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="bg-canvas"></canvas>
+  <div class="instruction-stream" id="instrStream"></div>
+  <div class="circuit-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">SILICON TO INTELLIGENCE</div>
+    <h1 class="hero-name">HARSH<br>MISHRA</h1>
+    <div class="hero-titles">
+      <span class="hero-title-item">RTL DESIGN ENGINEER</span>
+      <span class="hero-title-item">FPGA DEVELOPER</span>
+      <span class="hero-title-item">RISC-V PROCESSOR DESIGNER</span>
+    </div>
+    <p class="hero-tagline">Designing processors, digital systems and intelligent radar-based solutions — from transistors to intelligence.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">VIEW PROJECTS ↓</a>
+      <a href="mailto:enggoharsh@gmail.com" class="btn-secondary">CONTACT ME</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">// 01 — ABOUT</div>
+    <h2 class="section-title">Engineering from<br>First Principles</h2>
+    <div class="section-line"></div>
+
+    <div class="about-grid">
+      <div>
+        <p style="color:var(--text-muted)">I'm a 3rd-year Electronics &amp; Communication Engineering student at SMVDU with a deep focus on RTL design, FPGA development, and processor architecture. My work spans from synthesizable Verilog HDL to AI-powered radar intelligence.</p>
+        <p style="color:var(--text-muted)">I recently completed a research internship at NIT Patna under Prof. Vineet Singh, where I built an end-to-end FMCW radar Human Activity Recognition pipeline achieving 88.28% validation accuracy.</p>
+        <p style="color:var(--text-muted)">As VLSI Lead at Tarang Club, I mentor students in digital design and drive hands-on hardware workshops that bridge theory to silicon.</p>
+
+        <div class="about-stats">
+          <div class="stat-card reveal">
+            <div class="stat-num">37</div>
+            <div class="stat-label">RV32I INSTRUCTIONS</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">125</div>
+            <div class="stat-label">MHz FPGA CLOCK</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">88%</div>
+            <div class="stat-label">RADAR AI ACCURACY</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">8.36</div>
+            <div class="stat-label">CGPA / 10</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-text">Started B.Tech ECE at SMVDU</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023–24</div>
+          <div class="timeline-text">Digital Logic &amp; Verilog HDL</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-text">FPGA Development on PYNQ-Z2</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-text">SAP-2 8-bit CPU — RTL &amp; FPGA Verified</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-text">RV32I 32-bit RISC-V Processor @ 125 MHz</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">May–Jul 2025</div>
+          <div class="timeline-text">Research Internship — NIT Patna</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-text">AI-Based Radar Intelligence (88.28% acc.)</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025–26</div>
+          <div class="timeline-text">GATE ECE Qualified — IIT Guwahati</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2025–</div>
+          <div class="timeline-text">VLSI Lead @ Tarang Club</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">FUTURE</div>
+          <div class="timeline-text">Processor Architect @ Tier-1 Semiconductor Firm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">// 02 — SKILLS</div>
+    <h2 class="section-title">Technical Arsenal</h2>
+    <div class="section-line"></div>
+
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">HARDWARE DESIGN</div>
+        <div class="skill-cat-title">RTL &amp; Digital</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Verilog HDL</span>
+          <span class="skill-tag">RTL Design</span>
+          <span class="skill-tag">FSM Design</span>
+          <span class="skill-tag">Processor Architecture</span>
+          <span class="skill-tag">FPGA Prototyping</span>
+          <span class="skill-tag">Digital Logic</span>
+          <span class="skill-tag">PYNQ-Z2</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">EDA TOOLS</div>
+        <div class="skill-cat-title">Design &amp; Verification</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AMD Vivado</span>
+          <span class="skill-tag">GTKWave</span>
+          <span class="skill-tag">Simulation</span>
+          <span class="skill-tag">Synthesis</span>
+          <span class="skill-tag">Timing Analysis</span>
+          <span class="skill-tag">Resource Utilization</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">PROGRAMMING</div>
+        <div class="skill-cat-title">Software Stack</div>
+        <div class="skill-tags">
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Embedded C</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">AI / DSP</div>
+        <div class="skill-cat-title">Intelligent Systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">Keras</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">CWT</span>
+          <span class="skill-tag">STFT</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Signal Processing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">// 03 — PROJECTS</div>
+    <h2 class="section-title">Featured Work</h2>
+    <div class="section-line"></div>
+
+    <div class="projects-grid">
+
+      <!-- RV32I — FLAGSHIP -->
+      <div class="project-card featured reveal">
+        <div class="project-header">
+          <div class="project-number">PROJECT_01 — FLAGSHIP</div>
+          <div class="project-title">32-bit RISC-V Processor</div>
+          <div class="project-subtitle">RV32I ISA · Single Cycle · FPGA Deployed</div>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A complete single-cycle RV32I processor supporting all 37 instructions across R, I, S, B, U, J-type formats. Includes full ALU, register file (32×32), control unit, PC logic, and memory interface. Synthesized and deployed on PYNQ-Z2 at 125 MHz.</p>
+
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-val">37</div>
+              <div class="metric-key">INSTRUCTIONS</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">125 MHz</div>
+              <div class="metric-key">CLOCK SPEED</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">4.54%</div>
+              <div class="metric-key">LUT USAGE</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">2415</div>
+              <div class="metric-key">LUTs USED</div>
+            </div>
+          </div>
+
+          <!-- Animated Datapath -->
+          <div class="rv-datapath">
+            <svg class="dp-svg" viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#0ab4ff" opacity="0.7"/>
+                </marker>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- PC -->
+              <rect x="10" y="70" width="70" height="40" fill="#0d1f35" stroke="#0ab4ff" stroke-width="1"/>
+              <text x="45" y="85" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">PC</text>
+              <text x="45" y="98" text-anchor="middle" fill="#6a8fab" font-family="JetBrains Mono,monospace" font-size="7">32-bit</text>
+
+              <!-- IMEM -->
+              <rect x="120" y="60" width="80" height="60" fill="#0d1f35" stroke="#0ab4ff" stroke-width="1"/>
+              <text x="160" y="86" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">INSTR</text>
+              <text x="160" y="98" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">MEM</text>
+              <text x="160" y="110" text-anchor="middle" fill="#6a8fab" font-family="JetBrains Mono,monospace" font-size="7">4KB</text>
+
+              <!-- CTRL -->
+              <rect x="240" y="10" width="80" height="40" fill="#0a1628" stroke="rgba(0,229,255,0.4)" stroke-width="1"/>
+              <text x="280" y="27" text-anchor="middle" fill="#00e5ff" font-family="JetBrains Mono,monospace" font-size="8">CONTROL</text>
+              <text x="280" y="40" text-anchor="middle" fill="#00e5ff" font-family="JetBrains Mono,monospace" font-size="8">UNIT</text>
+
+              <!-- REGFILE -->
+              <rect x="240" y="70" width="80" height="60" fill="#0d1f35" stroke="#0ab4ff" stroke-width="1"/>
+              <text x="280" y="96" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">REG FILE</text>
+              <text x="280" y="108" text-anchor="middle" fill="#6a8fab" font-family="JetBrains Mono,monospace" font-size="7">32×32-bit</text>
+
+              <!-- ALU -->
+              <polygon points="370,65 430,50 430,130 370,115" fill="#0a1628" stroke="#00d4aa" stroke-width="1"/>
+              <text x="400" y="93" text-anchor="middle" fill="#00d4aa" font-family="JetBrains Mono,monospace" font-size="8">ALU</text>
+
+              <!-- DMEM -->
+              <rect x="465" y="60" width="80" height="60" fill="#0d1f35" stroke="#0ab4ff" stroke-width="1"/>
+              <text x="505" y="86" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">DATA</text>
+              <text x="505" y="98" text-anchor="middle" fill="#0ab4ff" font-family="JetBrains Mono,monospace" font-size="8">MEM</text>
+              <text x="505" y="110" text-anchor="middle" fill="#6a8fab" font-family="JetBrains Mono,monospace" font-size="7">4KB</text>
+
+              <!-- Arrows with animation -->
+              <!-- PC → IMEM -->
+              <line x1="80" y1="90" x2="118" y2="90" stroke="#0ab4ff" stroke-width="1.5" marker-end="url(#arr)" opacity="0.8"/>
+              <!-- IMEM → CTRL -->
+              <line x1="160" y1="60" x2="280" y2="50" stroke="rgba(0,229,255,0.6)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+              <!-- IMEM → REGFILE -->
+              <line x1="200" y1="90" x2="238" y2="90" stroke="#0ab4ff" stroke-width="1.5" marker-end="url(#arr)" opacity="0.8"/>
+              <!-- REGFILE → ALU -->
+              <line x1="320" y1="85" x2="368" y2="78" stroke="#0ab4ff" stroke-width="1.5" marker-end="url(#arr)" opacity="0.8"/>
+              <line x1="320" y1="105" x2="368" y2="105" stroke="#0ab4ff" stroke-width="1.5" marker-end="url(#arr)" opacity="0.8"/>
+              <!-- ALU → DMEM -->
+              <line x1="430" y1="90" x2="463" y2="90" stroke="#00d4aa" stroke-width="1.5" marker-end="url(#arr)" opacity="0.8"/>
+
+              <!-- PC+4 feedback -->
+              <path d="M 45,110 Q 45,155 300,155 Q 55,155 45,110" fill="none" stroke="rgba(10,180,255,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="175" y="165" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">PC + 4 / Branch Target</text>
+
+              <!-- Animated data packet on PC→IMEM -->
+              <circle r="3" fill="#0ab4ff" filter="url(#glow)">
+                <animateMotion dur="2s" repeatCount="indefinite" path="M80,90 L118,90 L200,90 L368,78 L430,90 L463,90 L545,90"/>
+              </circle>
+              <circle r="3" fill="#00e5ff" opacity="0.6">
+                <animateMotion dur="2s" begin="0.7s" repeatCount="indefinite" path="M80,90 L118,90 L200,90 L368,78 L430,90 L463,90 L545,90"/>
+              </circle>
+
+              <!-- Labels below -->
+              <text x="45" y="145" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">PC</text>
+              <text x="160" y="145" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">FETCH</text>
+              <text x="280" y="145" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">DECODE</text>
+              <text x="400" y="145" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">EXECUTE</text>
+              <text x="505" y="145" text-anchor="middle" fill="#3d5a6e" font-family="JetBrains Mono,monospace" font-size="7">MEM</text>
+            </svg>
+          </div>
+
+          <div class="project-tags">
+            <span class="project-tag">Verilog HDL</span>
+            <span class="project-tag">Vivado EDA</span>
+            <span class="project-tag">PYNQ-Z2</span>
+            <span class="project-tag">RISC-V</span>
+            <span class="project-tag">Single Cycle</span>
+            <span class="project-tag">FPGA</span>
+          </div>
+          <a href="https://github.com/enggoharsh" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+        </div>
+      </div>
+
+      <!-- SAP-2 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-number">PROJECT_02</div>
+          <div class="project-title">SAP-2 8-bit CPU</div>
+          <div class="project-subtitle">Verilog · FPGA Validated</div>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Complete RTL design of SAP-2 datapath and control logic. Fetch-Decode-Execute pipeline with directed testbenches. FPGA hardware validated on PYNQ-Z2.</p>
+
+          <!-- Fetch/Decode/Execute visual -->
+          <div style="display:flex;align-items:center;gap:0.5rem;margin:1rem 0;flex-wrap:wrap">
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border-bright);background:var(--blue-dim);font-family:var(--mono);font-size:0.7rem;color:var(--blue)">FETCH</div>
+            <div style="color:var(--text-dim)">→</div>
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border);background:var(--surface);font-family:var(--mono);font-size:0.7rem;color:var(--text-muted)">DECODE</div>
+            <div style="color:var(--text-dim)">→</div>
+            <div style="padding:0.6rem 1rem;border:1px solid var(--border);background:var(--surface);font-family:var(--mono);font-size:0.7rem;color:var(--text-muted)">EXECUTE</div>
+          </div>
+
+          <div class="project-tags">
+            <span class="project-tag">Verilog HDL</span>
+            <span class="project-tag">Vivado</span>
+            <span class="project-tag">PYNQ-Z2</span>
+            <span class="project-tag">8-bit CPU</span>
+          </div>
+          <a href="https://github.com/enggoharsh" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+        </div>
+      </div>
+
+      <!-- UART -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-number">PROJECT_03</div>
+          <div class="project-title">UART Communication</div>
+          <div class="project-subtitle">FSM-Based · 9600 Baud · 16× Oversampling</div>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">FSM-based full UART (Tx/Rx + baud-rate generator) at 9600 baud with 16× oversampling, parity checking, and configurable stop-bit support.</p>
+
+          <!-- Live UART Simulator -->
+          <div class="uart-sim">
+            <div style="font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.15em;margin-bottom:0.75rem">// UART FRAME VISUALIZER</div>
+            <div class="uart-input-row">
+              <input class="uart-input" id="uart-in" type="text" maxlength="1" placeholder="Type a character..." value="A">
+              <button class="uart-btn" onclick="visualizeUART()">TRANSMIT</button>
+            </div>
+            <div id="uart-frame-display" class="uart-frame"></div>
+            <div id="uart-label" style="font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.5rem;letter-spacing:0.05em"></div>
+          </div>
+
+          <div class="project-tags" style="margin-top:1rem">
+            <span class="project-tag">Verilog HDL</span>
+            <span class="project-tag">FSM</span>
+            <span class="project-tag">Serial Comm</span>
+            <span class="project-tag">Vivado</span>
+          </div>
+          <a href="https://github.com/enggoharsh" target="_blank" class="project-link">VIEW ON GITHUB →</a>
+        </div>
+      </div>
+
+      <!-- RADAR HAR -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-number">PROJECT_04 — RESEARCH</div>
+          <div class="project-title">FMCW Radar HAR</div>
+          <div class="project-subtitle">NIT Patna · Deep Learning · Signal Processing</div>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">End-to-end Human Activity Recognition pipeline on 1800 radar samples across 6 activity classes using Continuous Wavelet Transform + CNN architectures.</p>
+
+          <div class="accuracy-badge">
+            <span class="accuracy-num">88.28</span>
+            <span class="accuracy-unit">% ACCURACY</span>
+          </div>
+
+          <div class="radar-pipeline">
+            <span class="radar-step highlight">Radar Data</span>
+            <span class="radar-arrow">→</span>
+            <span class="radar-step">CWT</span>
+            <span class="radar-arrow">→</span>
+            <span class="radar-step">Scalogram</span>
+            <span class="radar-arrow">→</span>
+            <span class="radar-step highlight">CNN</span>
+            <span class="radar-arrow">→</span>
+            <span class="radar-step">Classification</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin:1rem 0">
+            <div style="padding:0.6rem;border:1px solid var(--border);background:var(--surface);font-family:var(--mono);font-size:0.65rem">
+              <div style="color:var(--text-dim);letter-spacing:0.1em">DATASET</div>
+              <div style="color:var(--text)">1800 samples</div>
+              <div style="color:var(--text-muted)">6 activity classes</div>
+            </div>
+            <div style="padding:0.6rem;border:1px solid var(--border);background:var(--surface);font-family:var(--mono);font-size:0.65rem">
+              <div style="color:var(--text-dim);letter-spacing:0.1em">BEST MODEL</div>
+              <div style="color:var(--text)">GoogLeNet+SVM</div>
+              <div style="color:var(--text-muted)">vs 4 other pipelines</div>
+            </div>
+          </div>
+
+          <div class="project-tags">
+            <span class="project-tag">TensorFlow</span>
+            <span class="project-tag">CWT</span>
+            <span class="project-tag">GoogLeNet</span>
+            <span class="project-tag">Keras</span>
+            <span class="project-tag">OpenCV</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">// 04 — EXPERIENCE</div>
+    <h2 class="section-title">Research &amp; Work</h2>
+    <div class="section-line"></div>
+
+    <div class="terminal reveal">
+      <div class="terminal-header">
+        <div class="term-dot red"></div>
+        <div class="term-dot yellow"></div>
+        <div class="term-dot green"></div>
+        <span class="terminal-title">harsh@nit-patna:~/research$</span>
+      </div>
+      <div class="terminal-body" id="termBody">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <div class="section-label">// 05 — ACHIEVEMENTS</div>
+    <h2 class="section-title">Recognition &amp; Awards</h2>
+    <div class="section-line"></div>
+
+    <div class="ach-grid">
+      <div class="ach-card">
+        <div class="ach-icon">⚡</div>
+        <div class="ach-title">GATE ECE 2026</div>
+        <div class="ach-desc">Qualified Graduate Aptitude Test in Engineering for ECE from IIT Guwahati, demonstrating strong proficiency in core digital design fundamentals.</div>
+        <div class="ach-badge">IIT GUWAHATI</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-icon">🏅</div>
+        <div class="ach-title">NPTEL Elite + Silver</div>
+        <div class="ach-desc">Scored 88% in Signals &amp; Systems — awarded Elite + Silver certification by IIT faculty on rigorous signal processing curriculum.</div>
+        <div class="ach-badge">88% SCORE</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-icon">🏆</div>
+        <div class="ach-title">Vice Chancellor Awards</div>
+        <div class="ach-desc">2× Vice-Chancellor Awards from SMVDU for Hindi Pakhwada — Story Writing &amp; Poem Writing competitions (Dec 2024).</div>
+        <div class="ach-badge">SMVDU · 2024</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-icon">🔬</div>
+        <div class="ach-title">NIT Patna Research Intern</div>
+        <div class="ach-desc">Selected for Research Internship at NIT Patna under Prof. Vineet Singh — independently developed FMCW radar AI pipeline achieving 88.28% accuracy.</div>
+        <div class="ach-badge">MAY–JUL 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+  <div class="container">
+    <div class="section-label">// 06 — LEADERSHIP</div>
+    <h2 class="section-title">Community &amp; Impact</h2>
+    <div class="section-line"></div>
+
+    <div class="leadership-grid reveal">
+      <div>
+        <div class="leadership-card">
+          <div class="leadership-logo">⚙</div>
+          <div class="leadership-role">VLSI Lead</div>
+          <div class="leadership-org">TARANG CLUB · SMVDU</div>
+          <div style="font-size:0.85rem;color:var(--text-muted)">Leading a team of engineers to deliver high-quality technical education in VLSI design and FPGA prototyping.</div>
+
+          <div class="leadership-metrics">
+            <div class="l-metric">
+              <div class="l-num">6</div>
+              <div class="l-label">TEAM MEMBERS</div>
+            </div>
+            <div class="l-metric">
+              <div class="l-num">20+</div>
+              <div class="l-label">WORKSHOPS</div>
+            </div>
+            <div class="l-metric">
+              <div class="l-num">30+</div>
+              <div class="l-label">STUDENTS/SESSION</div>
+            </div>
+            <div class="l-metric">
+              <div class="l-num">∞</div>
+              <div class="l-label">IMPACT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.15em;margin-bottom:1.5rem">// WORKSHOP CURRICULUM</div>
+        <ul class="workshop-list">
+          <li class="workshop-item">
+            <span class="workshop-num">W01</span>
+            <span class="workshop-text">Introduction to Digital Logic — Gates, Flip-Flops, Sequential Circuits</span>
+          </li>
+          <li class="workshop-item">
+            <span class="workshop-num">W02</span>
+            <span class="workshop-text">Verilog HDL from Zero — Syntax, Modules, Testbenches</span>
+          </li>
+          <li class="workshop-item">
+            <span class="workshop-num">W03</span>
+            <span class="workshop-text">FSM Design — Mealy vs Moore, Practical Implementation</span>
+          </li>
+          <li class="workshop-item">
+            <span class="workshop-num">W04</span>
+            <span class="workshop-text">FPGA Prototyping on PYNQ-Z2 — Vivado Synthesis &amp; Deploy</span>
+          </li>
+          <li class="workshop-item">
+            <span class="workshop-num">W05</span>
+            <span class="workshop-text">Processor Architecture — Datapath, Control, Memory Hierarchy</span>
+          </li>
+          <li class="workshop-item">
+            <span class="workshop-num">W06+</span>
+            <span class="workshop-text">Advanced Sessions — RISC-V ISA, Serial Protocols, VLSI Design Flow</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">// 07 — CONTACT</div>
+    <h2 class="section-title">Let's Build Together</h2>
+    <div class="section-line"></div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p style="color:var(--text-muted);margin-bottom:1rem">Open to research collaborations, FPGA projects, RTL internships, and technical discussions on processor architecture and hardware design.</p>
+
+        <a href="mailto:enggoharsh@gmail.com" class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div class="contact-label">EMAIL</div>
+            <div class="contact-value">enggoharsh@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/harshrajeshmishra" target="_blank" class="contact-item">
+          <div class="contact-icon">in</div>
+          <div>
+            <div class="contact-label">LINKEDIN</div>
+            <div class="contact-value">linkedin.com/in/harshrajeshmishra</div>
+          </div>
+        </a>
+        <a href="https://github.com/enggoharsh" target="_blank" class="contact-item">
+          <div class="contact-icon">⌥</div>
+          <div>
+            <div class="contact-label">GITHUB</div>
+            <div class="contact-value">github.com/enggoharsh</div>
+          </div>
+        </a>
+        <a href="tel:+918899234364" class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">PHONE</div>
+            <div class="contact-value">+91 889-923-4364</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- ╔══════════════════════════════════════════════════════╗
+           ║  FORMSPREE SETUP (one-time, free):                  ║
+           ║  1. Go to https://formspree.io/register             ║
+           ║  2. Sign up with enggoharsh@gmail.com               ║
+           ║  3. Click "New Form" → copy your form ID            ║
+           ║  4. Replace YOUR_FORM_ID below with it              ║
+           ║     e.g. action="https://formspree.io/f/xpwzqdkr"  ║
+           ╚══════════════════════════════════════════════════════╝ -->
+      <form
+        class="contact-form reveal"
+        id="contactForm"
+        action="https://formspree.io/f/xeewopqw"
+        method="POST"
+        onsubmit="handleFormSubmit(event)"
+      >
+        <div class="form-field">
+          <label class="form-label" for="cf-name">NAME</label>
+          <input class="form-input" id="cf-name" name="name" type="text" placeholder="Your name" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="cf-email">EMAIL</label>
+          <input class="form-input" id="cf-email" name="email" type="email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="cf-subject">SUBJECT</label>
+          <input class="form-input" id="cf-subject" name="subject" type="text" placeholder="Research collaboration, internship...">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="cf-message">MESSAGE</label>
+          <textarea class="form-textarea" id="cf-message" name="message" placeholder="Tell me about your project or opportunity..." required></textarea>
+        </div>
+        <!-- Hidden field: reply-to so you can hit Reply in Gmail -->
+        <input type="hidden" name="_replyto" id="cf-replyto">
+        <!-- Honeypot anti-spam -->
+        <input type="text" name="_gotcha" style="display:none">
+
+        <div id="form-status" style="font-family:var(--mono);font-size:0.75rem;min-height:1.5rem;margin-bottom:0.5rem"></div>
+        <button type="submit" class="form-submit" id="form-btn">SEND MESSAGE →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">
+    © 2025 <span>Harsh Mishra</span> — Silicon to Intelligence
+  </div>
+  <div class="footer-text">
+    B.Tech ECE · SMVDU · CGPA <span>8.36</span>
+  </div>
+  <div class="footer-text">
+    Built with <span>♥</span> and Verilog
+  </div>
+</footer>
+
+<script>
+// ─── CANVAS BACKGROUND — animated grid + nodes ───
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], time = 0;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Create nodes (PCB-like)
+  for (let i = 0; i < 40; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 2 + 1,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+
+  function drawGrid() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(10,180,255,0.04)';
+    ctx.lineWidth = 1;
+    const gsize = 60;
+    for (let x = 0; x < W; x += gsize) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += gsize) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+  }
+
+  function drawNodes() {
+    nodes.forEach((n, i) => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+      n.pulse += 0.02;
+
+      const alpha = 0.15 + 0.1 * Math.sin(n.pulse);
+
+      // Connect nearby nodes
+      nodes.forEach((m, j) => {
+        if (j <= i) return;
+        const d = Math.hypot(n.x - m.x, n.y - m.y);
+        if (d < 150) {
+          ctx.strokeStyle = `rgba(10,180,255,${alpha * (1 - d/150) * 0.5})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y);
+          ctx.stroke();
+        }
+      });
+
+      ctx.fillStyle = `rgba(10,180,255,${alpha})`;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function loop() {
+    drawGrid();
+    drawNodes();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ─── INSTRUCTION STREAM ───
+(function() {
+  const container = document.getElementById('instrStream');
+  const instrs = ['ADD','SUB','LW','SW','BEQ','JAL','LUI','AUIPC','JALR','BNE','BLT','BGE','ADDI','SLTI','XORI','ORI','ANDI','SLLI','SRLI','SRAI','AND','OR','XOR','SLL','SRL','SRA','SLT','SLTU'];
+
+  for (let i = 0; i < 12; i++) {
+    const col = document.createElement('div');
+    col.className = 'instr-col';
+    col.style.left = `${(i / 12) * 100}%`;
+    col.style.animationDuration = `${15 + Math.random() * 15}s`;
+    col.style.animationDelay = `-${Math.random() * 20}s`;
+
+    const shuffled = [...instrs].sort(() => Math.random() - 0.5);
+    col.innerHTML = shuffled.concat(shuffled).map(i => `<div>${i}</div>`).join('');
+    container.appendChild(col);
+  }
+})();
+
+// ─── UART SIMULATOR ───
+function visualizeUART() {
+  const input = document.getElementById('uart-in').value;
+  const display = document.getElementById('uart-frame-display');
+  const label = document.getElementById('uart-label');
+
+  if (!input) return;
+
+  const charCode = input.charCodeAt(0);
+  const bits = charCode.toString(2).padStart(8, '0').split('').reverse();
+  const parity = bits.reduce((s, b) => s + parseInt(b), 0) % 2;
+
+  const frame = [
+    { val: '0', type: 'start', label: 'START' },
+    ...bits.map((b, i) => ({ val: b, type: 'data', label: `D${i}` })),
+    { val: parity.toString(), type: 'parity', label: 'PAR' },
+    { val: '1', type: 'stop', label: 'STOP' }
+  ];
+
+  display.innerHTML = '';
+  frame.forEach((f, i) => {
+    setTimeout(() => {
+      const bit = document.createElement('div');
+      bit.className = `uart-bit ${f.type}`;
+      bit.textContent = f.val;
+      bit.title = f.label;
+      display.appendChild(bit);
+    }, i * 80);
+  });
+
+  label.textContent = `'${input}' (0x${charCode.toString(16).toUpperCase()}) → ${charCode.toString(2).padStart(8,'0')} | Parity: ${parity} (Even) | Baud: 9600`;
+}
+
+// ─── TERMINAL ANIMATION ───
+(function() {
+  const termBody = document.getElementById('termBody');
+  const lines = [
+    { type: 'cmd', prompt: '$ ', text: 'cat internship.log' },
+    { type: 'out', text: '' },
+    { type: 'kv', key: 'Organization  ', val: 'National Institute of Technology, Patna' },
+    { type: 'kv', key: 'Mentor        ', val: 'Prof. Vineet Singh' },
+    { type: 'kv', key: 'Duration      ', val: 'May 2025 – Jul 2025' },
+    { type: 'kv', key: 'Domain        ', val: 'FMCW Radar + Deep Learning' },
+    { type: 'out', text: '' },
+    { type: 'cmd', prompt: '$ ', text: 'git log --oneline --research' },
+    { type: 'out', text: '' },
+    { type: 'out', text: 'a3f1d2c  [FEAT] End-to-end FMCW HAR pipeline (1800 samples, 6 classes)' },
+    { type: 'out', text: 'b7e4c1a  [FEAT] CWT scalogram generation from micro-Doppler signatures' },
+    { type: 'out', text: 'c9d2f3e  [EVAL] Benchmarked 5 CNN pipelines — GoogLeNet, AlexNet variants' },
+    { type: 'out', text: 'd1a8b2f  [RESULT] Best validation accuracy: 88.28% (GoogLeNet+SVM)' },
+    { type: 'out', text: 'e5c3d7a  [ML] Complete TensorFlow+Keras training + hyperparameter tuning' },
+    { type: 'out', text: '' },
+    { type: 'cmd', prompt: '$ ', text: 'echo $STATUS' },
+    { type: 'val', text: 'MISSION_COMPLETE — Research pipeline delivered & documented ✓' },
+    { type: 'cursor', text: '' },
+  ];
+
+  let i = 0;
+  function printNext() {
+    if (i >= lines.length) return;
+    const line = lines[i++];
+    const div = document.createElement('div');
+
+    if (line.type === 'cmd') {
+      div.className = 'term-line';
+      div.innerHTML = `<span class="term-prompt">${line.prompt}</span><span class="term-cmd">${line.text}</span>`;
+    } else if (line.type === 'kv') {
+      div.className = 'term-line';
+      div.innerHTML = `<span class="term-output"><span class="term-key">${line.key}</span>  <span class="term-val">${line.val}</span></span>`;
+    } else if (line.type === 'val') {
+      div.innerHTML = `<span style="color:var(--teal)">${line.text}</span>`;
+    } else if (line.type === 'cursor') {
+      div.className = 'term-line';
+      div.innerHTML = `<span class="term-prompt">$ </span><span class="term-cursor"></span>`;
+    } else {
+      div.className = 'term-output';
+      div.textContent = line.text;
+    }
+
+    termBody.appendChild(div);
+    setTimeout(printNext, line.type === 'cmd' ? 400 : 120);
+  }
+
+  // Start when in view
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      setTimeout(printNext, 500);
+      observer.disconnect();
+    }
+  }, { threshold: 0.3 });
+  observer.observe(termBody);
+})();
+
+// ─── SCROLL REVEAL ───
+(function() {
+  const reveals = document.querySelectorAll('.reveal');
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  const achCards = document.querySelectorAll('.ach-card');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+  timelineItems.forEach(el => observer.observe(el));
+  achCards.forEach((el, i) => {
+    const o = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setTimeout(() => el.classList.add('visible'), i * 100);
+        o.disconnect();
+      }
+    }, { threshold: 0.1 });
+    o.observe(el);
+  });
+})();
+
+// ─── FORM SUBMIT (Formspree) ───
+async function handleFormSubmit(e) {
+  e.preventDefault();
+  const form   = document.getElementById('contactForm');
+  const btn    = document.getElementById('form-btn');
+  const status = document.getElementById('form-status');
+
+  // Mirror email into _replyto so Gmail Reply works
+  const emailVal = document.getElementById('cf-email').value;
+  document.getElementById('cf-replyto').value = emailVal;
+
+  btn.textContent = 'SENDING...';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+  status.textContent = '';
+
+  try {
+    const data = new FormData(form);
+    const res  = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      status.style.color = 'var(--teal)';
+      status.textContent = '✓ Message delivered to enggoharsh@gmail.com';
+      btn.textContent = 'MESSAGE SENT ✓';
+      btn.style.background = '#50c050';
+      btn.style.opacity = '1';
+      form.reset();
+    } else {
+      const json = await res.json();
+      throw new Error(json.error || 'Submission failed');
+    }
+  } catch (err) {
+    status.style.color = '#f05050';
+    status.textContent = '✗ Error: ' + err.message + ' — email enggoharsh@gmail.com directly.';
+    btn.textContent = 'SEND MESSAGE →';
+    btn.style.background = 'var(--blue)';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+  }
+
+  setTimeout(() => {
+    btn.textContent = 'SEND MESSAGE →';
+    btn.style.background = 'var(--blue)';
+    btn.disabled = false;
+  }, 5000);
+}
+
+// ─── INIT UART on load ───
+window.addEventListener('load', () => {
+  setTimeout(visualizeUART, 800);
+});
+</script>
+</body>
+</html>
